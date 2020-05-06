@@ -4,13 +4,11 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "AppBundle\\": "src/AppBundle",
             "App\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\AppBundle\\": "tests/AppBundle",
             "App\\Tests\\": "tests/"
         }
     },
@@ -38,6 +36,7 @@
         "symfony/swiftmailer-bundle": "^3.2",
         "symfony/twig-pack": "^1.0",
         "symfony/validator": "^4.0",
+        "symfony/web-server-bundle": "^4.0",
         "symfony/yaml": "^4.0"
     },
     "config": {
