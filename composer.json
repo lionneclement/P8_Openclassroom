@@ -27,7 +27,6 @@
         "symfony/flex": "^1.6",
         "symfony/form": "^4.0",
         "symfony/framework-bundle": "^4.0",
-        "symfony/lts": "^4@dev",
         "symfony/monolog-bundle": "^3.5",
         "symfony/polyfill-apcu": "^1.0",
         "symfony/profiler-pack": "^1.0",
