@@ -3,11 +3,13 @@ security:
         App\Entity\User:
             algorithm: auto
 
+
     providers:
         app_user_provider:
             entity:
                 class: App\Entity\User
                 property: email
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -23,6 +25,8 @@ security:
                     - App\Security\Authenticator
 
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/users, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, allow_if: is_anonymous() }
+        - { path: ^/users/create, allow_if: is_anonymous() }
+        - { path: ^/users/\d+/edit, roles: ROLE_USER }
+        - { path: ^/users/list, roles: ROLE_ADMIN }
         - { path: ^/, roles: ROLE_USER }

@@ -13,7 +13,7 @@ class DefaultControllerTest extends WebTestCase
     {
         $client = static::createClient();
         $client->request('GET', $url);
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertNotEquals(200, $client->getResponse()->getStatusCode());
     }
     /**
      * @dataProvider urlProvider
@@ -23,7 +23,21 @@ class DefaultControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request(
             'GET', $url, [], [], [
-            'PHP_AUTH_USER' => 'lionneclement@gmail.com',
+            'PHP_AUTH_USER' => 'user@gmail.com',
+            'PHP_AUTH_PW'   => 'password',
+            ]
+        );
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+    /**
+     * @dataProvider urlProvider
+     */
+    public function testAdmin($url)
+    {
+        $client = static::createClient();
+        $client->request(
+            'GET', $url, [], [], [
+            'PHP_AUTH_USER' => 'admin@gmail.com',
             'PHP_AUTH_PW'   => 'password',
             ]
         );
