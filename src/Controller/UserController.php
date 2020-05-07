@@ -42,7 +42,7 @@ class UserController extends AbstractController
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
-            return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('user/create.html.twig', ['form' => $form->createView()]);
@@ -106,7 +106,7 @@ class UserController extends AbstractController
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
-            return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('user/adminEdit.html.twig', ['form' => $form->createView(), 'user' => $user]);
@@ -122,6 +122,6 @@ class UserController extends AbstractController
 
         $this->addFlash('success', "L'utilisateur a bien été supprimée.");
 
-        return $this->redirectToRoute('user_list');
+        return $this->redirectToRoute('homepage');
     }
 }
