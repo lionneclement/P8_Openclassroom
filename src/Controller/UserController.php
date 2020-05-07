@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\AdminEditUserType;
+use App\Form\ProfilPasswordType;
+use App\Form\ProfilType;
 use App\Form\UserType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -51,7 +53,26 @@ class UserController extends AbstractController
      */
     public function editAction(User $user, Request $request, UserPasswordEncoderInterface $encoder)
     {
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(ProfilType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', "L'utilisateur a bien été modifié");
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+    }
+    /**
+     * @Route("/users/{id}/edit/password", name="user_edit_password")
+     */
+    public function editPasswordAction(User $user, Request $request, UserPasswordEncoderInterface $encoder)
+    {
+        $form = $this->createForm(ProfilPasswordType::class, $user);
 
         $form->handleRequest($request);
 
@@ -61,12 +82,12 @@ class UserController extends AbstractController
 
             $this->getDoctrine()->getManager()->flush();
 
-            $this->addFlash('success', "L'utilisateur a bien été modifié");
+            $this->addFlash('success', "Le mot de passe a bien été modifié");
 
-            return $this->redirectToRoute('user_list');
+            return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+        return $this->render('user/editPassword.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
     /**
      * @Route("/admin/users/{id}/edit", name="admin_edit_user")
