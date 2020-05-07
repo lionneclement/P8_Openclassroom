@@ -6,13 +6,31 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
-    public function testIndex()
+    /**
+     * @dataProvider urlProvider
+     */
+    public function testAnony($url)
     {
         $client = static::createClient();
-
-        $crawler = $client->request('GET', '/');
-
+        $client->request('GET', $url);
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+    }
+    /**
+     * @dataProvider urlProvider
+     */
+    public function testUser($url)
+    {
+        $client = static::createClient();
+        $client->request(
+            'GET', $url, [], [], [
+            'PHP_AUTH_USER' => 'lionneclement@gmail.com',
+            'PHP_AUTH_PW'   => 'password',
+            ]
+        );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Welcome to Symfony', $crawler->filter('#container h1')->text());
+    }
+    public function urlProvider()
+    {
+        yield ['/'];
     }
 }
