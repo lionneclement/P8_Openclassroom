@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\AdminEditUserType;
 use App\Form\UserType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,5 +67,27 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+    }
+    /**
+     * @Route("/admin/users/{id}/edit", name="admin_edit_user")
+     */
+    public function adminEditAction(User $user, Request $request, UserPasswordEncoderInterface $encoder)
+    {
+        $form = $this->createForm(AdminEditUserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
+
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', "L'utilisateur a bien été modifié");
+
+            return $this->redirectToRoute('user_list');
+        }
+
+        return $this->render('user/adminEdit.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
 }
