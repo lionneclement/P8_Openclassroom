@@ -138,6 +138,9 @@
     "symfony/asset": {
         "version": "v4.4.8"
     },
+    "symfony/browser-kit": {
+        "version": "v4.4.8"
+    },
     "symfony/cache": {
         "version": "v4.4.8"
     },
@@ -169,6 +172,9 @@
     "symfony/doctrine-bridge": {
         "version": "v4.4.8"
     },
+    "symfony/dom-crawler": {
+        "version": "v4.4.8"
+    },
     "symfony/dotenv": {
         "version": "v4.4.8"
     },
@@ -176,6 +182,9 @@
         "version": "v4.4.8"
     },
     "symfony/event-dispatcher": {
+        "version": "v4.4.8"
+    },
+    "symfony/expression-language": {
         "version": "v4.4.8"
     },
     "symfony/filesystem": {
