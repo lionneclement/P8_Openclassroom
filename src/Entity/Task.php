@@ -40,6 +40,11 @@ class Task
      */
     private $isDone;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
+     */
+    private $userId;
+
     public function __construct()
     {
         $this->createdAt = new \Datetime();
@@ -89,5 +94,17 @@ class Task
     public function toggle($flag)
     {
         $this->isDone = $flag;
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(?User $userId): self
+    {
+        $this->userId = $userId;
+
+        return $this;
     }
 }
