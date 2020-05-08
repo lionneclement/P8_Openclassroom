@@ -17,7 +17,7 @@ class EditProfilTest extends WebTestCase
     {
         $client = static::createClient();
         $client->followRedirects();
-        $crawler = $client->request('GET', '/users/create');
+        $crawler = $client->request('GET', '/create/users');
         $form = $crawler->selectButton('Ajouter')->form();
 
         $form['user[username]'] = 'testEdit';

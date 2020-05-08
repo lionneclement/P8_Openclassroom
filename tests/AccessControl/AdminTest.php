@@ -8,7 +8,7 @@ class AdminTest extends WebTestCase
 {
     public function urlFalse()
     {
-        yield ['/users/create'];
+        yield ['/create/users'];
         yield ['/login'];
     }
     public function urlTrue()
@@ -17,7 +17,7 @@ class AdminTest extends WebTestCase
         yield ['/'];
         yield ['/users/edit'];
         yield ['/users/edit/password'];
-        yield ['/users/list'];
+        yield ['/admin/list'];
         yield ['/admin/users/14/edit'];
     }
     /**
