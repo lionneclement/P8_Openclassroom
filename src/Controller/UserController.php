@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserController extends AbstractController
 {
@@ -49,9 +50,9 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/users/{id}/edit", name="user_edit")
+     * @Route("/users/edit", name="user_edit")
      */
-    public function editAction(User $user, Request $request, UserPasswordEncoderInterface $encoder)
+    public function editAction(UserInterface $user, Request $request)
     {
         $form = $this->createForm(ProfilType::class, $user);
 
@@ -68,9 +69,9 @@ class UserController extends AbstractController
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
     /**
-     * @Route("/users/{id}/edit/password", name="user_edit_password")
+     * @Route("/users/edit/password", name="user_edit_password")
      */
-    public function editPasswordAction(User $user, Request $request, UserPasswordEncoderInterface $encoder)
+    public function editPasswordAction(UserInterface $user, Request $request, UserPasswordEncoderInterface $encoder)
     {
         $form = $this->createForm(ProfilPasswordType::class, $user);
 
