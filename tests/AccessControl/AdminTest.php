@@ -13,8 +13,8 @@ class AdminTest extends WebTestCase
     public function urlTrue()
     {
         yield ['/'];
-        yield ['/users/14/edit'];
-        yield ['/users/14/edit/password'];
+        yield ['/users/edit'];
+        yield ['/users/edit/password'];
         yield ['/users/list'];
         yield ['/admin/users/14/edit'];
     }
