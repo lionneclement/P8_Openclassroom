@@ -3,7 +3,6 @@
 namespace Tests\Controller\SecurityController;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LogoutTest extends WebTestCase
 {
