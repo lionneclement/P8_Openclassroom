@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/users/list", name="user_list")
+     * @Route("/admin/list", name="user_list")
      */
     public function listAction()
     {
@@ -24,7 +24,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/users/create", name="user_create")
+     * @Route("/create/users", name="user_create")
      */
     public function createAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
