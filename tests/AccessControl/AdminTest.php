@@ -9,9 +9,11 @@ class AdminTest extends WebTestCase
     public function urlFalse()
     {
         yield ['/users/create'];
+        yield ['/login'];
     }
     public function urlTrue()
     {
+        yield ['/tasks'];
         yield ['/'];
         yield ['/users/edit'];
         yield ['/users/edit/password'];
