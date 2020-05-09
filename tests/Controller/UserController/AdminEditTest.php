@@ -8,7 +8,7 @@ class AdminEditTest extends WebTestCase
 {
     public function url()
     {
-        yield ['/admin/users/15/edit'];
+        yield ['/admin/users/5/edit'];
     }
     /**
      * @dataProvider url
@@ -25,10 +25,10 @@ class AdminEditTest extends WebTestCase
         );
         $form = $crawler->selectButton('Modifier')->form();
 
-        $form['admin_edit_user[username]'] = 'adminEdit';
+        $form['admin_edit_user[username]'] = 'editAdmin';
         $form['admin_edit_user[password][first]'] = 'newPassword';
         $form['admin_edit_user[password][second]'] = 'newPassword';
-        $form['admin_edit_user[email]'] = 'adminEdit@gmail.com';
+        $form['admin_edit_user[email]'] = 'editAdmin@gmail.com';
         $crawler = $client->submit($form);
         
         $this->assertGreaterThan(0, $crawler->filter('div.alert-success')->count());
