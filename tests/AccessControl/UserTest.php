@@ -10,15 +10,16 @@ class UserTest extends WebTestCase
     {
         yield ['/create/users'];
         yield ['/admin/list'];
-        yield ['/admin/users/14/edit'];
+        yield ['/admin/users/5/edit'];
         yield ['/login'];
     }
     public function urlTrue()
     {
         yield ['/tasks'];
+        yield ['/tasks/1/edit'];
         yield ['/'];
-        yield ['/users/edit'];
-        yield ['/users/edit/password'];
+        yield ['/edit/users'];
+        yield ['/edit/users/password'];
     }
     /**
      * @dataProvider urlFalse

@@ -29,10 +29,10 @@
             <div class="container">
                 <div class="navbar-header">
                     <img src="{{ asset('img/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms" />
-                    <a class="navbar-brand" href="/">Accueil</a>
-                    <a class="navbar-brand" href="/tasks">Liste de tâche</a>
-                    <a class="navbar-brand" href="/tasks/1/isDone">Liste de tâche terminée</a>
-                    <a class="navbar-brand" href="/tasks/0/isDone">Liste de tâche en cours</a>
+                    <a class="navbar-brand" href="{{ path('homepage')}}">Accueil</a>
+                    <a class="navbar-brand" href="{{ path('task_list')}}">Liste de tâche</a>
+                    <a class="navbar-brand" href="{{ path('task_list_isDone',{'id':1})}}">Liste de tâche terminée</a>
+                    <a class="navbar-brand" href="{{ path('task_list_isDone',{'id':0})}}">Liste de tâche en cours</a>
                 </div>
             </div>
         </nav>
