@@ -18,8 +18,8 @@ class UserTest extends WebTestCase
         yield ['/tasks'];
         yield ['/tasks/1/edit'];
         yield ['/'];
-        yield ['/users/edit'];
-        yield ['/users/edit/password'];
+        yield ['/edit/users'];
+        yield ['/edit/users/password'];
     }
     /**
      * @dataProvider urlFalse
