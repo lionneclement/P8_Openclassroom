@@ -16,7 +16,9 @@ class TaskController extends AbstractController
      */
     public function listAction(UserInterface $user)
     {
-        $tasks = $this->getDoctrine()->getRepository('App:Task')->findBy(['userId' => $user->getId()]);
+        $tasks = $this->getDoctrine()
+            ->getRepository('App:Task')
+            ->findBy(['userId' => $user->getId()]);
         return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
     /**
@@ -24,7 +26,9 @@ class TaskController extends AbstractController
      */
     public function listActionIsDone(int $id, UserInterface $user)
     {
-        $tasks = $this->getDoctrine()->getRepository('App:Task')->findBy(['userId' => $user->getId(), 'isDone'=> $id]);
+        $tasks = $this->getDoctrine()
+            ->getRepository('App:Task')
+            ->findBy(['userId' => $user->getId(), 'isDone'=> $id]);
         return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 
@@ -51,7 +55,7 @@ class TaskController extends AbstractController
             return $this->redirectToRoute('task_list');
         }
 
-        return $this->render('task/create.html.twig', ['form' => $form->createView()]);
+        return $this->render('task/create.html.twig', ['form'=>$form->createView()]);
     }
 
     /**
