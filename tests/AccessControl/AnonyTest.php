@@ -10,11 +10,12 @@ class AnonyTest extends WebTestCase
     {
         yield ['/'];
         yield ['/admin/list'];
-        yield ['/admin/users/14/edit'];
+        yield ['/admin/users/108/edit'];
         yield ['/users/edit'];
         yield ['/users/edit/password'];
         yield ['/logout'];
         yield ['/tasks'];
+        yield ['/tasks/44/edit'];
     }
     public function urlTrue()
     {
