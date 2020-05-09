@@ -8,7 +8,7 @@ class EditTest extends WebTestCase
 {
   public function url()
   {
-      yield ['/tasks/1/edit'];
+      yield ['/users/tasks/1/edit'];
   }
   /**
    * @dataProvider url
