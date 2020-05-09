@@ -16,8 +16,8 @@ class AdminTest extends WebTestCase
         yield ['/tasks/1/edit'];
         yield ['/tasks'];
         yield ['/'];
-        yield ['/users/edit'];
-        yield ['/users/edit/password'];
+        yield ['/edit/users'];
+        yield ['/edit/users/password'];
         yield ['/admin/list'];
         yield ['/admin/users/5/edit'];
     }

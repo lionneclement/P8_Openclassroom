@@ -50,7 +50,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/users/edit", name="user_edit")
+     * @Route("/edit/users", name="user_edit")
      */
     public function editAction(UserInterface $user, Request $request)
     {
@@ -69,7 +69,7 @@ class UserController extends AbstractController
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
     /**
-     * @Route("/users/edit/password", name="user_edit_password")
+     * @Route("/edit/users/password", name="user_edit_password")
      */
     public function editPasswordAction(UserInterface $user, Request $request, UserPasswordEncoderInterface $encoder)
     {
