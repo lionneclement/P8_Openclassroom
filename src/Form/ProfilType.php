@@ -15,14 +15,15 @@ class ProfilType extends AbstractType
     {
         $builder
             ->add('username', TextType::class, ['label' => "Nom d'utilisateur"])
-            ->add('email', EmailType::class, ['label' => 'Adresse email'])
-        ;
+            ->add('email', EmailType::class, ['label' => 'Adresse email']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
+        $resolver->setDefaults(
+            [
             'data_class' => User::class,
-        ]);
+            ]
+        );
     }
 }
