@@ -7,14 +7,19 @@ use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-class TestingFixtures extends Fixture
+class TestingFixtures extends Fixture implements FixtureGroupInterface
 {
     private $encoder;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;
+    }
+    public static function getGroups(): array
+    {
+        return ['testing'];
     }
     public function load(ObjectManager $manager)
     {
@@ -63,8 +68,6 @@ class TestingFixtures extends Fixture
         $password = $this->encoder->encodePassword($user, 'password');
         $user->setPassword($password);
         $manager->persist($user);
-
-
 
         $manager->flush();
     }
