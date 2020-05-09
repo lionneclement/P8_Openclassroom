@@ -8,7 +8,7 @@ class AdminEditTest extends WebTestCase
 {
     public function url()
     {
-        yield ['/admin/users/108/edit'];
+        yield ['/admin/users/5/edit'];
     }
     /**
      * @dataProvider url

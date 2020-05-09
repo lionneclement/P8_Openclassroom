@@ -23,6 +23,10 @@ class TestingFixtures extends Fixture implements FixtureGroupInterface
     }
     public function load(ObjectManager $manager)
     {
+        $connection = $manager->getConnection();
+        $connection->exec("ALTER TABLE user AUTO_INCREMENT = 1");
+        $connection->exec("ALTER TABLE task AUTO_INCREMENT = 1");
+
         $user = new User();
         $user->setUsername('admin');
         $user->setEmail('admin@gmail.com');
