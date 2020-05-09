@@ -14,8 +14,8 @@ class AnonyTest extends WebTestCase
         yield ['/users/edit'];
         yield ['/users/edit/password'];
         yield ['/logout'];
-        yield ['/users/tasks'];
-        yield ['/users/tasks/1/edit'];
+        yield ['/tasks'];
+        yield ['/tasks/1/edit'];
     }
     public function urlTrue()
     {

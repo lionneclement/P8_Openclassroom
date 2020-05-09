@@ -8,7 +8,7 @@ class CreateTest extends WebTestCase
 {
   public function url()
   {
-      yield ['/users/tasks/create'];
+      yield ['/tasks/create'];
   }
   /**
    * @dataProvider url

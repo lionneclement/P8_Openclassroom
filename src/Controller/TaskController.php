@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class TaskController extends AbstractController
 {
     /**
-     * @Route("/users/tasks", name="task_list")
+     * @Route("/tasks", name="task_list")
      */
     public function listAction(UserInterface $user)
     {
@@ -20,7 +20,7 @@ class TaskController extends AbstractController
         return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
     /**
-     * @Route("/users/tasks/{id}/isDone", name="task_list_isDone")
+     * @Route("/tasks/{id}/isDone", name="task_list_isDone")
      */
     public function listActionIsDone(int $id, UserInterface $user)
     {
@@ -29,7 +29,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/users/tasks/create", name="task_create")
+     * @Route("/tasks/create", name="task_create")
      */
     public function createAction(Request $request, UserInterface $user)
     {
@@ -55,7 +55,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/users/tasks/{id}/edit", name="task_edit")
+     * @Route("/tasks/{id}/edit", name="task_edit")
      */
     public function editAction(Task $task, Request $request)
     {
@@ -78,7 +78,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/users/tasks/{id}/toggle", name="task_toggle")
+     * @Route("/tasks/{id}/toggle", name="task_toggle")
      */
     public function toggleTaskAction(Task $task, Request $request)
     {
@@ -91,7 +91,7 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/users/tasks/{id}/delete", name="task_delete")
+     * @Route("/tasks/{id}/delete", name="task_delete")
      */
     public function deleteTaskAction(Task $task, Request $request)
     {
