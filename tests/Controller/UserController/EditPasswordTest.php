@@ -17,14 +17,6 @@ class EditPasswordTest extends WebTestCase
     {
         $client = static::createClient();
         $client->followRedirects();
-        $crawler = $client->request('GET', '/create/users');
-        $form = $crawler->selectButton('Ajouter')->form();
-
-        $form['user[username]'] = 'testEditPassword';
-        $form['user[password][first]'] = 'password';
-        $form['user[password][second]'] = 'password';
-        $form['user[email]'] = 'testEditPassword@gmail.com';
-        $crawler = $client->submit($form);
         
         $crawler = $client->request(
             'GET', $url, [], [], [
@@ -40,7 +32,7 @@ class EditPasswordTest extends WebTestCase
         
         $this->assertGreaterThan(0, $crawler->filter('div.alert-success')->count());
     }
-        /**
+    /**
      * @dataProvider url
      */
     public function testErrorForm($url)
