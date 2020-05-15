@@ -16,7 +16,6 @@ class DeleteTest extends WebTestCase
     public function testError($url)
     {
         $client = static::createClient();
-        $client->followRedirects();
         $client->request(
             'GET', $url, [], [], [
             'PHP_AUTH_USER' => 'user@gmail.com',
@@ -24,7 +23,7 @@ class DeleteTest extends WebTestCase
               ]
         );
         
-        $this->assertNotEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
     /**
      * @dataProvider url
