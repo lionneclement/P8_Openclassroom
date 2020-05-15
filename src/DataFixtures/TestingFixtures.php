@@ -49,6 +49,12 @@ class TestingFixtures extends Fixture implements FixtureGroupInterface
         $task->setUserId($user);
         $manager->persist($task);
 
+        $task = new Task();
+        $task->setTitle('toggleTest');
+        $task->setContent('toggleTest');
+        $task->setUserId($user);
+        $manager->persist($task);
+
         $user = new User();
         $user->setUsername('testEditPassword');
         $user->setEmail('testEditPassword@gmail.com');
