@@ -94,7 +94,7 @@ class TaskController extends AbstractController
         if ($task->getUserId() != $user) {
             return $this->redirectToRoute('homepage');
         }
-        $task->toggle(!$task->isDone());
+        $task->setIsDone(!$task->getIsDone());
         $this->getDoctrine()->getManager()->flush();
 
         $this->addFlash('success', sprintf('La tâche %s a bien été modifier.', $task->getTitle()));
