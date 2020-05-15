@@ -35,14 +35,11 @@ class UserTest extends WebTestCase
         $this->assertCount(2, $this->user->getRoles());
     }
 
-    public function testGetTask()
+    public function testTask()
     {
         $this->user->addTask($this->task);
         $this->assertCount(1, $this->user->getTasks());
-    }
 
-    public function testDeleteTask()
-    {
         $this->user->removeTask($this->task);
         $this->assertCount(0, $this->user->getTasks());
     }
