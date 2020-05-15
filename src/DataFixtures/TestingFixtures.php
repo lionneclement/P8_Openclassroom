@@ -8,7 +8,11 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use PHPUnit\Framework\TestCase;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TestingFixtures extends Fixture implements FixtureGroupInterface
 {
     private $encoder;
@@ -49,6 +53,18 @@ class TestingFixtures extends Fixture implements FixtureGroupInterface
         $task->setUserId($user);
         $manager->persist($task);
 
+        $task = new Task();
+        $task->setTitle('toggleTest');
+        $task->setContent('toggleTest');
+        $task->setUserId($user);
+        $manager->persist($task);
+
+        $task = new Task();
+        $task->setTitle('DeleteTask');
+        $task->setContent('DeleteTask');
+        $task->setUserId($user);
+        $manager->persist($task);
+
         $user = new User();
         $user->setUsername('testEditPassword');
         $user->setEmail('testEditPassword@gmail.com');
@@ -68,6 +84,14 @@ class TestingFixtures extends Fixture implements FixtureGroupInterface
         $user = new User();
         $user->setUsername('adminEdit');
         $user->setEmail('adminEdit@gmail.com');
+        $user->setRoles(['ROLE_USER']);
+        $password = $this->encoder->encodePassword($user, 'password');
+        $user->setPassword($password);
+        $manager->persist($user);
+
+        $user = new User();
+        $user->setUsername('deleteUser');
+        $user->setEmail('delete@gmail.com');
         $user->setRoles(['ROLE_USER']);
         $password = $this->encoder->encodePassword($user, 'password');
         $user->setPassword($password);

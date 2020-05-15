@@ -91,7 +91,7 @@ class UserController extends AbstractController
         return $this->render('user/editPassword.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
     /**
-     * @Route("/admin/users/{id}/edit", name="admin_edit_user")
+     * @Route("/admin/users/{id}/edit", name="admin_edit_user", requirements={"id"="\d+"})
      */
     public function adminEditAction(User $user, Request $request, UserPasswordEncoderInterface $encoder)
     {
@@ -113,7 +113,7 @@ class UserController extends AbstractController
         return $this->render('user/adminEdit.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
     /**
-     * @Route("/admin/users/{id}/delete", name="admin_delete_user")
+     * @Route("/admin/users/{id}/delete", name="admin_delete_user", requirements={"id"="\d+"})
      */
     public function adminDeleteUser(User $user)
     {

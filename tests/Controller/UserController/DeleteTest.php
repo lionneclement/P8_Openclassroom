@@ -1,41 +1,43 @@
 <?php
 
-namespace Tests\Controller\SecurityController;
+namespace Tests\Controller\UserController;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class LogoutTest extends WebTestCase
+class DeleteTest extends WebTestCase
 {
-    private $urlLogin = '/login';
-
     public function url()
     {
-        yield ['/logout'];
+        yield ['/admin/users/6/delete'];
     }
     /**
      * @dataProvider url
      */
-    public function testConnected($url)
+    public function testError($url)
     {
         $client = static::createClient();
         $client->request(
-            'GET', $this->urlLogin, [], [], [
+            'GET', $url, [], [], [
             'PHP_AUTH_USER' => 'user@gmail.com',
             'PHP_AUTH_PW'   => 'password',
               ]
         );
-        $client->request('GET', $url);
-
-        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
     /**
      * @dataProvider url
      */
-    public function testNotConnected($url)
+    public function testSuccess($url)
     {
         $client = static::createClient();
-        $client->request('GET', $url);
-
+        $client->request(
+            'GET', $url, [], [], [
+            'PHP_AUTH_USER' => 'admin@gmail.com',
+            'PHP_AUTH_PW'   => 'password',
+              ]
+        );
+        
         $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 }
