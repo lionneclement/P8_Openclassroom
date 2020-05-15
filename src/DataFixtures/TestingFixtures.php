@@ -85,6 +85,14 @@ class TestingFixtures extends Fixture implements FixtureGroupInterface
         $user->setPassword($password);
         $manager->persist($user);
 
+        $user = new User();
+        $user->setUsername('deleteUser');
+        $user->setEmail('delete@gmail.com');
+        $user->setRoles(['ROLE_USER']);
+        $password = $this->encoder->encodePassword($user, 'password');
+        $user->setPassword($password);
+        $manager->persist($user);
+
         $manager->flush();
     }
 }
