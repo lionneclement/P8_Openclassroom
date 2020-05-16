@@ -8,7 +8,7 @@ class EditPasswordTest extends WebTestCase
 {
     public function url()
     {
-        yield ['/edit/users/password'];
+        yield ['/users/edit/password'];
     }
     /**
      * @dataProvider url

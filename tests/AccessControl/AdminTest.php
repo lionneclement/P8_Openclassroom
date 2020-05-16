@@ -8,7 +8,7 @@ class AdminTest extends WebTestCase
 {
     public function urlFalse()
     {
-        yield ['/create/users'];
+        yield ['/users/create'];
         yield ['/login'];
         yield ['/tasks/1/edit'];//false because task is connected to user
     }
@@ -16,9 +16,9 @@ class AdminTest extends WebTestCase
     {
         yield ['/tasks'];
         yield ['/'];
-        yield ['/edit/users'];
-        yield ['/edit/users/password'];
-        yield ['/admin/list'];
+        yield ['/users/edit'];
+        yield ['/users/edit/password'];
+        yield ['/admin/users/list'];
         yield ['/admin/users/5/edit'];
     }
     /**

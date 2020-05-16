@@ -8,8 +8,8 @@ class UserTest extends WebTestCase
 {
     public function urlFalse()
     {
-        yield ['/create/users'];
-        yield ['/admin/list'];
+        yield ['/users/create'];
+        yield ['/admin/users/list'];
         yield ['/admin/users/5/edit'];
         yield ['/login'];
     }
@@ -18,8 +18,8 @@ class UserTest extends WebTestCase
         yield ['/tasks'];
         yield ['/tasks/1/edit'];
         yield ['/'];
-        yield ['/edit/users'];
-        yield ['/edit/users/password'];
+        yield ['/users/edit'];
+        yield ['/users/edit/password'];
     }
     /**
      * @dataProvider urlFalse

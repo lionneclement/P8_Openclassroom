@@ -22,7 +22,7 @@ class TaskController extends AbstractController
         return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
     /**
-     * @Route("/tasks/{id}/isDone", name="task_list_isDone", requirements={"id"="[01]"})
+     * @Route("/tasks/{id}/list", name="task_list_isDone", requirements={"id"="[01]"})
      */
     public function listActionIsDone(int $id, UserInterface $user)
     {

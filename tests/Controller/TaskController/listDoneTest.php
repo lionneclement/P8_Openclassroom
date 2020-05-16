@@ -8,14 +8,14 @@ class ListDoneTest extends WebTestCase
 {
     public function urlSuccess()
     {
-        yield ['/tasks/0/isDone'];
-        yield ['/tasks/1/isDone'];
+        yield ['/tasks/0/list'];
+        yield ['/tasks/1/list'];
     }
     public function urlError()
     {
-        yield ['/tasks/q/isDone'];
-        yield ['/tasks/2/isDone'];
-        yield ['/tasks/false/isDone'];
+        yield ['/tasks/q/list'];
+        yield ['/tasks/2/list'];
+        yield ['/tasks/false/list'];
     }
     /**
      * @dataProvider urlSuccess
