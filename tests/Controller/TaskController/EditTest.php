@@ -10,6 +10,10 @@ class EditTest extends WebTestCase
     {
         yield ['/tasks/1/edit'];
     }
+    public function urlTaskAnony()
+    {
+        yield ['/tasks/4/edit'];
+    }
     /**
      * @dataProvider url
      */
@@ -30,5 +34,35 @@ class EditTest extends WebTestCase
         $crawler = $client->submit($form);
         
         $this->assertGreaterThan(0, $crawler->filter('div.alert-success')->count());
+    }
+    /**
+     * @dataProvider urlTaskAnony
+     */
+    public function testTaskAnonySuccess($url)
+    {
+        $client = static::createClient();
+        $client->request(
+            'GET', $url, [], [], [
+            'PHP_AUTH_USER' => 'admin@gmail.com',
+            'PHP_AUTH_PW'   => 'password',
+              ]
+        );
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+    /**
+     * @dataProvider urlTaskAnony
+     */
+    public function testTaskAnonyError($url)
+    {
+        $client = static::createClient();
+        $client->request(
+            'GET', $url, [], [], [
+            'PHP_AUTH_USER' => 'user@gmail.com',
+            'PHP_AUTH_PW'   => 'password',
+              ]
+        );
+
+        $this->assertNotEquals(200, $client->getResponse()->getStatusCode());
     }
 }

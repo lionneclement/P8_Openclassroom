@@ -46,6 +46,7 @@
                 <a href="{{ path('user_edit') }}" class="btn btn-primary">Profile</a>
                 {% if is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('admin_user_list') }}" class="btn btn-primary">Liste des utilisateurs</a>
+                    <a href="{{ path('task_list_anony') }}" class="btn btn-primary">Liste des tâches anonyme</a>
                 {% endif %}
                 {% endif %}
 
