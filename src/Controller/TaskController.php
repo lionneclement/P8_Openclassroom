@@ -63,7 +63,7 @@ class TaskController extends AbstractController
      */
     public function editAction(Task $task, Request $request, UserInterface $user)
     {
-        if ($task->getUserId() != $user) {
+        if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('homepage');
         }
         $form = $this->createForm(TaskType::class, $task);
@@ -91,7 +91,7 @@ class TaskController extends AbstractController
      */
     public function toggleTaskAction(Task $task, Request $request, UserInterface $user)
     {
-        if ($task->getUserId() != $user) {
+        if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('homepage');
         }
         $task->setIsDone(!$task->getIsDone());
@@ -107,7 +107,7 @@ class TaskController extends AbstractController
      */
     public function deleteTaskAction(Task $task, Request $request, UserInterface $user)
     {
-        if ($task->getUserId() != $user) {
+        if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('homepage');
         }
         $em = $this->getDoctrine()->getManager();
@@ -117,5 +117,15 @@ class TaskController extends AbstractController
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
         return $this->redirect($request->headers->get('referer'));
+    }
+    /**
+     * @Route("/admin/tasks/anony", name="task_list_anony")
+     */
+    public function listTaskAnony()
+    {
+        $tasks = $this->getDoctrine()
+            ->getRepository('App:Task')
+            ->findBy(['userId'=> null]);
+        return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 }
