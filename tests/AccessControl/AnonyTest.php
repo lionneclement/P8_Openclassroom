@@ -9,10 +9,10 @@ class AnonyTest extends WebTestCase
     public function urlFalse()
     {
         yield ['/'];
-        yield ['/admin/list'];
+        yield ['/admin/users/list'];
         yield ['/admin/users/5/edit'];
-        yield ['/edit/users'];
-        yield ['/edit/users/password'];
+        yield ['/users/edit'];
+        yield ['/users/edit/password'];
         yield ['/logout'];
         yield ['/tasks'];
         yield ['/tasks/1/edit'];
@@ -20,7 +20,7 @@ class AnonyTest extends WebTestCase
     public function urlTrue()
     {
         yield ['/login'];
-        yield ['/create/users'];
+        yield ['/users/create'];
     }
     /**
      * @dataProvider urlFalse
