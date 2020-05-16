@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/admin/list", name="user_list")
+     * @Route("/admin/users/list", name="admin_user_list")
      */
     public function listAction()
     {
@@ -24,7 +24,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/create/users", name="user_create")
+     * @Route("/users/create", name="user_create")
      */
     public function createAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
@@ -50,7 +50,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/edit/users", name="user_edit")
+     * @Route("/users/edit", name="user_edit")
      */
     public function editAction(UserInterface $user, Request $request)
     {
@@ -69,7 +69,7 @@ class UserController extends AbstractController
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
     /**
-     * @Route("/edit/users/password", name="user_edit_password")
+     * @Route("/users/edit/password", name="user_edit_password")
      */
     public function editPasswordAction(UserInterface $user, Request $request, UserPasswordEncoderInterface $encoder)
     {
@@ -91,7 +91,7 @@ class UserController extends AbstractController
         return $this->render('user/editPassword.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
     /**
-     * @Route("/admin/users/{id}/edit", name="admin_edit_user")
+     * @Route("/admin/users/{id}/edit", name="admin_edit_user", requirements={"id"="\d+"})
      */
     public function adminEditAction(User $user, Request $request, UserPasswordEncoderInterface $encoder)
     {
@@ -113,7 +113,7 @@ class UserController extends AbstractController
         return $this->render('user/adminEdit.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
     /**
-     * @Route("/admin/users/{id}/delete", name="admin_delete_user")
+     * @Route("/admin/users/{id}/delete", name="admin_delete_user", requirements={"id"="\d+"})
      */
     public function adminDeleteUser(User $user)
     {

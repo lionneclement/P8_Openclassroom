@@ -18,7 +18,6 @@ class LogoutTest extends WebTestCase
     public function testConnected($url)
     {
         $client = static::createClient();
-        $client->followRedirects();
         $client->request(
             'GET', $this->urlLogin, [], [], [
             'PHP_AUTH_USER' => 'user@gmail.com',
@@ -27,7 +26,7 @@ class LogoutTest extends WebTestCase
         );
         $client->request('GET', $url);
 
-        $this->assertStringContainsString($this->urlLogin, $client->getRequest()->getUri());
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
     /**
      * @dataProvider url
@@ -35,9 +34,8 @@ class LogoutTest extends WebTestCase
     public function testNotConnected($url)
     {
         $client = static::createClient();
-        $client->followRedirects();
         $client->request('GET', $url);
 
-        $this->assertStringContainsString($this->urlLogin, $client->getRequest()->getUri());
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
     }
 }

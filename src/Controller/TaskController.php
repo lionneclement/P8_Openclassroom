@@ -22,7 +22,7 @@ class TaskController extends AbstractController
         return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
     /**
-     * @Route("/tasks/{id}/isDone", name="task_list_isDone")
+     * @Route("/tasks/{id}/list", name="task_list_isDone", requirements={"id"="[01]"})
      */
     public function listActionIsDone(int $id, UserInterface $user)
     {
@@ -59,11 +59,11 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/edit", name="task_edit")
+     * @Route("/tasks/{id}/edit", name="task_edit", requirements={"id"="\d+"})
      */
     public function editAction(Task $task, Request $request, UserInterface $user)
     {
-        if ($task->getUserId() != $user) {
+        if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('homepage');
         }
         $form = $this->createForm(TaskType::class, $task);
@@ -87,27 +87,27 @@ class TaskController extends AbstractController
     }
 
     /**
-     * @Route("/tasks/{id}/toggle", name="task_toggle")
+     * @Route("/tasks/{id}/toggle", name="task_toggle", requirements={"id"="\d+"})
      */
     public function toggleTaskAction(Task $task, Request $request, UserInterface $user)
     {
-        if ($task->getUserId() != $user) {
+        if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('homepage');
         }
-        $task->toggle(!$task->isDone());
+        $task->setIsDone(!$task->getIsDone());
         $this->getDoctrine()->getManager()->flush();
 
-        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+        $this->addFlash('success', sprintf('La tâche %s a bien été modifier.', $task->getTitle()));
 
         return $this->redirect($request->headers->get('referer'));
     }
 
     /**
-     * @Route("/tasks/{id}/delete", name="task_delete")
+     * @Route("/tasks/{id}/delete", name="task_delete", requirements={"id"="\d+"})
      */
     public function deleteTaskAction(Task $task, Request $request, UserInterface $user)
     {
-        if ($task->getUserId() != $user) {
+        if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('homepage');
         }
         $em = $this->getDoctrine()->getManager();
@@ -117,5 +117,15 @@ class TaskController extends AbstractController
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
         return $this->redirect($request->headers->get('referer'));
+    }
+    /**
+     * @Route("/admin/tasks/anony", name="task_list_anony")
+     */
+    public function listTaskAnony()
+    {
+        $tasks = $this->getDoctrine()
+            ->getRepository('App:Task')
+            ->findBy(['userId'=> null]);
+        return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 }
