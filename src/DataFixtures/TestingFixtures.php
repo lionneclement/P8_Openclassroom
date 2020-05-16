@@ -97,6 +97,11 @@ class TestingFixtures extends Fixture implements FixtureGroupInterface
         $user->setPassword($password);
         $manager->persist($user);
 
+        $task = new Task();
+        $task->setTitle('AnonyTask');
+        $task->setContent('AnonyTask');
+        $manager->persist($task);
+
         $manager->flush();
     }
 }
