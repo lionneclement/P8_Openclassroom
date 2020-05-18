@@ -50,6 +50,12 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
             $task->setUserId($user);
             $manager->persist($task);
         }
+        for ($i = 1; $i <= 10; $i++) {
+            $task = new Task();
+            $task->setTitle('Task anonymous n'.$i);
+            $task->setContent('Task anonymous n'.$i);
+            $manager->persist($task);
+        }
 
         $manager->flush();
     }
