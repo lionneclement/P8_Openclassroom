@@ -6,6 +6,22 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class EditPasswordTest extends WebTestCase
 {
+    private $client;
+
+    public function setUp(): void
+    {
+        $this->client = static::createClient();
+        $this->client->followRedirects();
+    }
+    public function login($url)
+    {
+        return $this->client->request(
+            'GET', $url, [], [], [
+            'PHP_AUTH_USER' => 'testEditPassword@gmail.com',
+            'PHP_AUTH_PW'   => 'password',
+              ]
+        );
+    }
     public function url()
     {
         yield ['/users/edit/password'];
@@ -15,20 +31,12 @@ class EditPasswordTest extends WebTestCase
      */
     public function testSuccessForm($url)
     {
-        $client = static::createClient();
-        $client->followRedirects();
-        
-        $crawler = $client->request(
-            'GET', $url, [], [], [
-            'PHP_AUTH_USER' => 'testEditPassword@gmail.com',
-            'PHP_AUTH_PW'   => 'password',
-              ]
-        );
+        $crawler = $this->login($url);
         $form = $crawler->selectButton('Modifier')->form();
 
         $form['profil_password[password][first]'] = 'password';
         $form['profil_password[password][second]'] = 'password';
-        $crawler = $client->submit($form);
+        $crawler = $this->client->submit($form);
         
         $this->assertGreaterThan(0, $crawler->filter('div.alert-success')->count());
     }
@@ -37,19 +45,12 @@ class EditPasswordTest extends WebTestCase
      */
     public function testErrorForm($url)
     {
-        $client = static::createClient();
-        $client->followRedirects();
-        $crawler = $client->request(
-            'GET', $url, [], [], [
-            'PHP_AUTH_USER' => 'testEditPassword@gmail.com',
-            'PHP_AUTH_PW'   => 'password',
-              ]
-        );
+        $crawler = $this->login($url);
         $form = $crawler->selectButton('Modifier')->form();
 
         $form['profil_password[password][first]'] = 'Password';
         $form['profil_password[password][second]'] = 'badPassword';
-        $crawler = $client->submit($form);
+        $crawler = $this->client->submit($form);
         
         $this->assertGreaterThan(0, $crawler->filter('span.help-block')->count());
     }

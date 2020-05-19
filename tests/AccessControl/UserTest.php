@@ -6,6 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class UserTest extends WebTestCase
 {
+    private $client;
+
+    public function setUp(): void
+    {
+        $this->client = static::createClient();
+    }
     public function urlFalse()
     {
         yield ['/users/create'];
@@ -27,27 +33,25 @@ class UserTest extends WebTestCase
      */
     public function testFalse($url)
     {
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'GET', $url, [], [], [
             'PHP_AUTH_USER' => 'user@gmail.com',
             'PHP_AUTH_PW'   => 'password',
             ]
         );
-        $this->assertNotEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertNotEquals(200, $this->client->getResponse()->getStatusCode());
     }
     /**
      * @dataProvider urlTrue
      */
     public function testTrue($url)
     {
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'GET', $url, [], [], [
             'PHP_AUTH_USER' => 'user@gmail.com',
             'PHP_AUTH_PW'   => 'password',
             ]
         );
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
 }

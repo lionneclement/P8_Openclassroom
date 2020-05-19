@@ -6,6 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class EditTest extends WebTestCase
 {
+    private $client;
+
+    public function setUp(): void
+    {
+        $this->client = static::createClient();
+    }
     public function url()
     {
         yield ['/tasks/1/edit'];
@@ -19,9 +25,8 @@ class EditTest extends WebTestCase
      */
     public function testSuccessForm($url)
     {
-        $client = static::createClient();
-        $client->followRedirects();
-        $crawler = $client->request(
+        $this->client->followRedirects();
+        $crawler = $this->client->request(
             'GET', $url, [], [], [
             'PHP_AUTH_USER' => 'user@gmail.com',
             'PHP_AUTH_PW'   => 'password',
@@ -31,7 +36,7 @@ class EditTest extends WebTestCase
 
         $form['task[title]'] = 'EditTaskTitle';
         $form['task[content]'] = 'EditTaskContent';
-        $crawler = $client->submit($form);
+        $crawler = $this->client->submit($form);
         
         $this->assertGreaterThan(0, $crawler->filter('div.alert-success')->count());
     }
@@ -40,29 +45,27 @@ class EditTest extends WebTestCase
      */
     public function testTaskAnonySuccess($url)
     {
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'GET', $url, [], [], [
             'PHP_AUTH_USER' => 'admin@gmail.com',
             'PHP_AUTH_PW'   => 'password',
               ]
         );
 
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
     /**
      * @dataProvider urlTaskAnony
      */
     public function testTaskAnonyError($url)
     {
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'GET', $url, [], [], [
             'PHP_AUTH_USER' => 'user@gmail.com',
             'PHP_AUTH_PW'   => 'password',
               ]
         );
 
-        $this->assertNotEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertNotEquals(200, $this->client->getResponse()->getStatusCode());
     }
 }

@@ -100,7 +100,10 @@ class TaskController extends AbstractController
 
         $this->addFlash('success', sprintf('La tâche %s a bien été modifier.', $task->getTitle()));
 
-        return $this->redirect($request->headers->get('referer'));
+        if ($request->headers->get('referer')) {
+            return $this->redirect($request->headers->get('referer'));
+        }
+        return $this->redirectToRoute('task_list');
     }
 
     /**
@@ -117,7 +120,10 @@ class TaskController extends AbstractController
 
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
-        return $this->redirect($request->headers->get('referer'));
+        if ($request->headers->get('referer')) {
+            return $this->redirect($request->headers->get('referer'));
+        }
+        return $this->redirectToRoute('task_list');
     }
     /**
      * @Route("/admin/tasks/anony", name="task_list_anony")
