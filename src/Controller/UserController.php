@@ -111,7 +111,7 @@ class UserController extends AbstractController
         return $this->render('user/adminEdit.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
     /**
-     * @Route("/admin/users/{id}/edit/password", name="admin_edit_user_password", requirements={"id"="\d+"})
+     * @Route("/admin/users/{id}/editPassword", name="admin_edit_user_password", requirements={"id"="\d+"})
      */
     public function adminEditUserPassword(User $user, Request $request, UserPasswordEncoderInterface $encoder): Response
     {
