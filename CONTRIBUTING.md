@@ -1,4 +1,3 @@
-
 # P8_Openclassroom
 Hey and thank you for your help.
 Before edit or add files you need to read this documentation.
