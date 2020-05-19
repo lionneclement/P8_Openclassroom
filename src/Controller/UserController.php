@@ -10,6 +10,7 @@ use App\Form\UserType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -18,7 +19,7 @@ class UserController extends AbstractController
     /**
      * @Route("/admin/users/list", name="admin_user_list")
      */
-    public function listAction()
+    public function listAction(): Response
     {
         return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository('App:User')->findAll()]);
     }
@@ -26,7 +27,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/create", name="user_create")
      */
-    public function createAction(Request $request, UserPasswordEncoderInterface $encoder)
+    public function createAction(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -52,7 +53,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/edit", name="user_edit")
      */
-    public function editAction(UserInterface $user, Request $request)
+    public function editAction(UserInterface $user, Request $request): Response
     {
         $form = $this->createForm(ProfilType::class, $user);
 
@@ -71,7 +72,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/edit/password", name="user_edit_password")
      */
-    public function editPasswordAction(UserInterface $user, Request $request, UserPasswordEncoderInterface $encoder)
+    public function editPasswordAction(UserInterface $user, Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $form = $this->createForm(ProfilPasswordType::class, $user);
 
@@ -93,9 +94,28 @@ class UserController extends AbstractController
     /**
      * @Route("/admin/users/{id}/edit", name="admin_edit_user", requirements={"id"="\d+"})
      */
-    public function adminEditAction(User $user, Request $request, UserPasswordEncoderInterface $encoder)
+    public function adminEditUser(User $user, Request $request): Response
     {
         $form = $this->createForm(AdminEditUserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', "L'utilisateur a bien été modifié");
+
+            return $this->redirectToRoute('admin_user_list');
+        }
+
+        return $this->render('user/adminEdit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+    }
+    /**
+     * @Route("/admin/users/{id}/editPassword", name="admin_edit_user_password", requirements={"id"="\d+"})
+     */
+    public function adminEditUserPassword(User $user, Request $request, UserPasswordEncoderInterface $encoder): Response
+    {
+        $form = $this->createForm(ProfilPasswordType::class, $user);
 
         $form->handleRequest($request);
 
@@ -107,15 +127,15 @@ class UserController extends AbstractController
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('admin_user_list');
         }
 
-        return $this->render('user/adminEdit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+        return $this->render('user/editPassword.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
     /**
      * @Route("/admin/users/{id}/delete", name="admin_delete_user", requirements={"id"="\d+"})
      */
-    public function adminDeleteUser(User $user)
+    public function adminDeleteUser(User $user): Response
     {
         $em = $this->getDoctrine()->getManager();
         $em->remove($user);

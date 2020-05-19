@@ -6,6 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DeleteTest extends WebTestCase
 {
+    private $client;
+
+    public function setUp(): void
+    {
+        $this->client = static::createClient();
+        $this->client->followRedirects();
+    }
     public function url()
     {
         yield ['/tasks/3/delete'];
@@ -15,34 +22,29 @@ class DeleteTest extends WebTestCase
      */
     public function testError($url)
     {
-        $client = static::createClient();
-        $client->request(
-            'GET', $url, [], [], [
+        $this->client->request(
+            'GET', '/', [], [], [
             'PHP_AUTH_USER' => 'admin@gmail.com',
             'PHP_AUTH_PW'   => 'password',
               ]
         );
-        $this->assertNotEquals(200, $client->getResponse()->getStatusCode());
+        $this->client->request('GET', $url);
+
+        $this->assertSelectorTextContains('h1', 'Bienvenue sur Todo List, l\'application vous permettant de gérer l\'ensemble de vos tâches sans effort !');
     }
     /**
      * @dataProvider url
      */
     public function testSuccess($url)
     {
-        $client = static::createClient();
-        $client->followRedirects();
-        $client->request(
-            'GET', '/login', [], [], [
+        $this->client->request(
+            'GET', '/', [], [], [
             'PHP_AUTH_USER' => 'user@gmail.com',
             'PHP_AUTH_PW'   => 'password',
               ]
         );
-        $client->request('GET', '/task');
-        $client->request('GET', $url);
-        
-        $this->assertEquals( 
-            'http://localhost/task', 
-            $client->getRequest()->getUri()
-        );
+        $crawler = $this->client->request('GET', $url);
+
+        $this->assertGreaterThan(0, $crawler->filter('div.alert-success')->count());
     }
 }

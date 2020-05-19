@@ -7,6 +7,7 @@ use App\Form\TaskType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class TaskController extends AbstractController
@@ -14,7 +15,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks", name="task_list")
      */
-    public function listAction(UserInterface $user)
+    public function listAction(UserInterface $user): Response
     {
         $tasks = $this->getDoctrine()
             ->getRepository('App:Task')
@@ -24,7 +25,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/list", name="task_list_isDone", requirements={"id"="[01]"})
      */
-    public function listActionIsDone(int $id, UserInterface $user)
+    public function listActionIsDone(int $id, UserInterface $user): Response
     {
         $tasks = $this->getDoctrine()
             ->getRepository('App:Task')
@@ -35,7 +36,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/create", name="task_create")
      */
-    public function createAction(Request $request, UserInterface $user)
+    public function createAction(Request $request, UserInterface $user): Response
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -61,7 +62,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/edit", name="task_edit", requirements={"id"="\d+"})
      */
-    public function editAction(Task $task, Request $request, UserInterface $user)
+    public function editAction(Task $task, Request $request, UserInterface $user): Response
     {
         if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('homepage');
@@ -89,7 +90,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle", requirements={"id"="\d+"})
      */
-    public function toggleTaskAction(Task $task, Request $request, UserInterface $user)
+    public function toggleTaskAction(Task $task, Request $request, UserInterface $user): Response
     {
         if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('homepage');
@@ -99,13 +100,16 @@ class TaskController extends AbstractController
 
         $this->addFlash('success', sprintf('La tâche %s a bien été modifier.', $task->getTitle()));
 
-        return $this->redirect($request->headers->get('referer'));
+        if ($request->headers->get('referer')) {
+            return $this->redirect($request->headers->get('referer'));
+        }
+        return $this->redirectToRoute('task_list');
     }
 
     /**
      * @Route("/tasks/{id}/delete", name="task_delete", requirements={"id"="\d+"})
      */
-    public function deleteTaskAction(Task $task, Request $request, UserInterface $user)
+    public function deleteTaskAction(Task $task, Request $request, UserInterface $user): Response
     {
         if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
             return $this->redirectToRoute('homepage');
@@ -116,12 +120,15 @@ class TaskController extends AbstractController
 
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
-        return $this->redirect($request->headers->get('referer'));
+        if ($request->headers->get('referer')) {
+            return $this->redirect($request->headers->get('referer'));
+        }
+        return $this->redirectToRoute('task_list');
     }
     /**
      * @Route("/admin/tasks/anony", name="task_list_anony")
      */
-    public function listTaskAnony()
+    public function listTaskAnony(): Response
     {
         $tasks = $this->getDoctrine()
             ->getRepository('App:Task')

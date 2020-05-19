@@ -6,6 +6,21 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ListDoneTest extends WebTestCase
 {
+    private $client;
+
+    public function setUp(): void
+    {
+        $this->client = static::createClient();
+    }
+    public function login($url): void
+    {
+        $this->client->request(
+            'GET', $url, [], [], [
+            'PHP_AUTH_USER' => 'user@gmail.com',
+            'PHP_AUTH_PW'   => 'password',
+              ]
+        );
+    }
     public function urlSuccess()
     {
         yield ['/tasks/0/list'];
@@ -22,29 +37,17 @@ class ListDoneTest extends WebTestCase
      */
     public function testSuccess($url)
     {
-        $client = static::createClient();
-        $client->request(
-            'GET', $url, [], [], [
-            'PHP_AUTH_USER' => 'user@gmail.com',
-            'PHP_AUTH_PW'   => 'password',
-              ]
-        );
+        $this->login($url);
         
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
     /**
      * @dataProvider urlError
      */
     public function testError($url)
     {
-        $client = static::createClient();
-        $client->request(
-            'GET', $url, [], [], [
-            'PHP_AUTH_USER' => 'user@gmail.com',
-            'PHP_AUTH_PW'   => 'password',
-              ]
-        );
+        $this->login($url);
         
-        $this->assertNotEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertNotEquals(200, $this->client->getResponse()->getStatusCode());
     }
 }

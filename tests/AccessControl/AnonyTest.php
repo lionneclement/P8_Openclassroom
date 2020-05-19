@@ -6,12 +6,19 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AnonyTest extends WebTestCase
 {
+    private $client;
+
+    public function setUp(): void
+    {
+        $this->client = static::createClient();
+    }
     public function urlFalse()
     {
         yield ['/'];
         yield ['/admin/tasks/anony'];
         yield ['/admin/users/list'];
         yield ['/admin/users/5/edit'];
+        yield ['/admin/users/5/editPassword'];
         yield ['/users/edit'];
         yield ['/users/edit/password'];
         yield ['/logout'];
@@ -28,17 +35,15 @@ class AnonyTest extends WebTestCase
      */
     public function testFalse($url)
     {
-        $client = static::createClient();
-        $client->request('GET', $url);
-        $this->assertNotEquals(200, $client->getResponse()->getStatusCode());
+        $this->client->request('GET', $url);
+        $this->assertNotEquals(200, $this->client->getResponse()->getStatusCode());
     }
     /**
      * @dataProvider urlTrue
      */
     public function testTrue($url)
     {
-        $client = static::createClient();
-        $client->request('GET', $url);
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->client->request('GET', $url);
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
 }

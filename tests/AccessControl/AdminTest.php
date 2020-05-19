@@ -6,6 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class AdminTest extends WebTestCase
 {
+    private $client;
+
+    public function setUp(): void
+    {
+        $this->client = static::createClient();
+    }
     public function urlFalse()
     {
         yield ['/users/create'];
@@ -20,6 +26,7 @@ class AdminTest extends WebTestCase
         yield ['/users/edit/password'];
         yield ['/admin/users/list'];
         yield ['/admin/users/5/edit'];
+        yield ['/admin/users/5/editPassword'];
         yield ['/admin/tasks/anony'];
     }
     /**
@@ -27,27 +34,25 @@ class AdminTest extends WebTestCase
      */
     public function testFalse($url)
     {
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'GET', $url, [], [], [
             'PHP_AUTH_USER' => 'admin@gmail.com',
             'PHP_AUTH_PW'   => 'password',
             ]
         );
-        $this->assertNotEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertNotEquals(200, $this->client->getResponse()->getStatusCode());
     }
     /**
      * @dataProvider urlTrue
      */
     public function testTrue($url)
     {
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'GET', $url, [], [], [
             'PHP_AUTH_USER' => 'admin@gmail.com',
             'PHP_AUTH_PW'   => 'password',
             ]
         );
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
 }

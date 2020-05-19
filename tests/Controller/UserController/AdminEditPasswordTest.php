@@ -4,7 +4,7 @@ namespace Tests\Controller\UserController;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class EditPasswordTest extends WebTestCase
+class AdminEditPasswordTest extends WebTestCase
 {
     private $client;
 
@@ -17,14 +17,14 @@ class EditPasswordTest extends WebTestCase
     {
         return $this->client->request(
             'GET', $url, [], [], [
-            'PHP_AUTH_USER' => 'testEditPassword@gmail.com',
+            'PHP_AUTH_USER' => 'admin@gmail.com',
             'PHP_AUTH_PW'   => 'password',
               ]
         );
     }
     public function url()
     {
-        yield ['/users/edit/password'];
+        yield ['/admin/users/5/editPassword'];
     }
     /**
      * @dataProvider url
@@ -34,8 +34,8 @@ class EditPasswordTest extends WebTestCase
         $crawler = $this->login($url);
         $form = $crawler->selectButton('Modifier')->form();
 
-        $form['profil_password[password][first]'] = 'password';
-        $form['profil_password[password][second]'] = 'password';
+        $form['profil_password[password][first]'] = 'newPassword';
+        $form['profil_password[password][second]'] = 'newPassword';
         $crawler = $this->client->submit($form);
         
         $this->assertGreaterThan(0, $crawler->filter('div.alert-success')->count());
@@ -48,7 +48,7 @@ class EditPasswordTest extends WebTestCase
         $crawler = $this->login($url);
         $form = $crawler->selectButton('Modifier')->form();
 
-        $form['profil_password[password][first]'] = 'Password';
+        $form['profil_password[password][first]'] = 'password';
         $form['profil_password[password][second]'] = 'badPassword';
         $crawler = $this->client->submit($form);
         

@@ -9,6 +9,7 @@
         {{ form_widget(form) }}
 
         <button type="submit" class="btn btn-success pull-right">Modifier</button>
+        <a href="{{ path('admin_edit_user_password', {'id' : user.id})}}" class="btn btn-primary">Mot de passe</a>
         {{ form_end(form) }}
     </div>
 {% endblock %}
