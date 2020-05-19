@@ -63,7 +63,7 @@
       <td class=" big"></td>
       <td class=" small"><div align="right">n/a</div></td>
       <td class=" small"><div align="right">0&nbsp;/&nbsp;0</div></td>
-      <td class=" small">4</td>
+      <td class=" small">5</td>
       <td class=" big"></td>
       <td class=" small"><div align="right">n/a</div></td>
       <td class=" small"><div align="right">0&nbsp;/&nbsp;0</div></td>
@@ -96,7 +96,7 @@
       <td class=" big"></td>
       <td class=" small"><div align="right">n/a</div></td>
       <td class=" small"><div align="right">0&nbsp;/&nbsp;0</div></td>
-      <td class=" small">2</td>
+      <td class=" small">3</td>
       <td class=" big"></td>
       <td class=" small"><div align="right">n/a</div></td>
       <td class=" small"><div align="right">0&nbsp;/&nbsp;0</div></td>
@@ -159,10 +159,16 @@
      <tr><td><div align="right"><a name="50"></a><a href="#50">50</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$task</span><span class="default">-&gt;</span><span class="default">setUserId</span><span class="keyword">(</span><span class="default">$user</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
      <tr><td><div align="right"><a name="51"></a><a href="#51">51</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$manager</span><span class="default">-&gt;</span><span class="default">persist</span><span class="keyword">(</span><span class="default">$task</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
      <tr><td><div align="right"><a name="52"></a><a href="#52">52</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span></td></tr>
-     <tr><td><div align="right"><a name="53"></a><a href="#53">53</a></div></td><td class="codeLine"></td></tr>
-     <tr><td><div align="right"><a name="54"></a><a href="#54">54</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$manager</span><span class="default">-&gt;</span><span class="default">flush</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
-     <tr><td><div align="right"><a name="55"></a><a href="#55">55</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span></td></tr>
-     <tr><td><div align="right"><a name="56"></a><a href="#56">56</a></div></td><td class="codeLine"><span class="keyword">}</span></td></tr>
+     <tr><td><div align="right"><a name="53"></a><a href="#53">53</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">for</span><span class="default">&nbsp;</span><span class="keyword">(</span><span class="default">$i</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="default">1</span><span class="keyword">;</span><span class="default">&nbsp;</span><span class="default">$i</span><span class="default">&nbsp;</span><span class="default">&lt;=</span><span class="default">&nbsp;</span><span class="default">10</span><span class="keyword">;</span><span class="default">&nbsp;</span><span class="default">$i</span><span class="default">++</span><span class="keyword">)</span><span class="default">&nbsp;</span><span class="keyword">{</span></td></tr>
+     <tr><td><div align="right"><a name="54"></a><a href="#54">54</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$task</span><span class="default">&nbsp;</span><span class="keyword">=</span><span class="default">&nbsp;</span><span class="keyword">new</span><span class="default">&nbsp;</span><span class="default">Task</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
+     <tr><td><div align="right"><a name="55"></a><a href="#55">55</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$task</span><span class="default">-&gt;</span><span class="default">setTitle</span><span class="keyword">(</span><span class="default">'Task&nbsp;anonymous&nbsp;n'</span><span class="keyword">.</span><span class="default">$i</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
+     <tr><td><div align="right"><a name="56"></a><a href="#56">56</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$task</span><span class="default">-&gt;</span><span class="default">setContent</span><span class="keyword">(</span><span class="default">'Task&nbsp;anonymous&nbsp;n'</span><span class="keyword">.</span><span class="default">$i</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
+     <tr><td><div align="right"><a name="57"></a><a href="#57">57</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$manager</span><span class="default">-&gt;</span><span class="default">persist</span><span class="keyword">(</span><span class="default">$task</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
+     <tr><td><div align="right"><a name="58"></a><a href="#58">58</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span></td></tr>
+     <tr><td><div align="right"><a name="59"></a><a href="#59">59</a></div></td><td class="codeLine"></td></tr>
+     <tr><td><div align="right"><a name="60"></a><a href="#60">60</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">$manager</span><span class="default">-&gt;</span><span class="default">flush</span><span class="keyword">(</span><span class="keyword">)</span><span class="keyword">;</span></td></tr>
+     <tr><td><div align="right"><a name="61"></a><a href="#61">61</a></div></td><td class="codeLine"><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keyword">}</span></td></tr>
+     <tr><td><div align="right"><a name="62"></a><a href="#62">62</a></div></td><td class="codeLine"><span class="keyword">}</span></td></tr>
 
     </tbody>
    </table>
@@ -175,7 +181,7 @@
      <span class="warning"><strong>Dead Code</strong></span>
     </p>
     <p>
-     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 5.3.2</a> using <a href="https://secure.php.net/" target="_top">PHP 7.4.5</a> with <a href="https://xdebug.org/">Xdebug 2.9.4</a> and <a href="https://phpunit.de/">PHPUnit 6.5.14</a> at Sat May 16 13:10:28 UTC 2020.</small>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 5.3.2</a> using <a href="https://secure.php.net/" target="_top">PHP 7.4.5</a> with <a href="https://xdebug.org/">Xdebug 2.9.4</a> and <a href="https://phpunit.de/">PHPUnit 6.5.14</a> at Tue May 19 7:56:04 UTC 2020.</small>
     </p>
     <a title="Back to the top" id="toplink" href="#"><span class="glyphicon glyphicon-arrow-up"></span></a>
    </footer>
