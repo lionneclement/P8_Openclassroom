@@ -4,7 +4,7 @@ namespace Tests\Controller\UserController;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class AdminEditTest extends WebTestCase
+class AdminEditPasswordTest extends WebTestCase
 {
     private $client;
 
@@ -24,7 +24,7 @@ class AdminEditTest extends WebTestCase
     }
     public function url()
     {
-        yield ['/admin/users/5/edit'];
+        yield ['/admin/users/5/editPassword'];
     }
     /**
      * @dataProvider url
@@ -34,10 +34,24 @@ class AdminEditTest extends WebTestCase
         $crawler = $this->login($url);
         $form = $crawler->selectButton('Modifier')->form();
 
-        $form['admin_edit_user[username]'] = 'editAdmin';
-        $form['admin_edit_user[email]'] = 'editAdmin@gmail.com';
+        $form['profil_password[password][first]'] = 'newPassword';
+        $form['profil_password[password][second]'] = 'newPassword';
         $crawler = $this->client->submit($form);
         
         $this->assertGreaterThan(0, $crawler->filter('div.alert-success')->count());
+    }
+    /**
+     * @dataProvider url
+     */
+    public function testErrorForm($url)
+    {
+        $crawler = $this->login($url);
+        $form = $crawler->selectButton('Modifier')->form();
+
+        $form['profil_password[password][first]'] = 'password';
+        $form['profil_password[password][second]'] = 'badPassword';
+        $crawler = $this->client->submit($form);
+        
+        $this->assertGreaterThan(0, $crawler->filter('span.help-block')->count());
     }
 }
