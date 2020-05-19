@@ -18,6 +18,7 @@ class AnonyTest extends WebTestCase
         yield ['/admin/tasks/anony'];
         yield ['/admin/users/list'];
         yield ['/admin/users/5/edit'];
+        yield ['/admin/users/5/editPassword'];
         yield ['/users/edit'];
         yield ['/users/edit/password'];
         yield ['/logout'];

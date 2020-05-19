@@ -94,9 +94,28 @@ class UserController extends AbstractController
     /**
      * @Route("/admin/users/{id}/edit", name="admin_edit_user", requirements={"id"="\d+"})
      */
-    public function adminEditAction(User $user, Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function adminEditUser(User $user, Request $request): Response
     {
         $form = $this->createForm(AdminEditUserType::class, $user);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', "L'utilisateur a bien été modifié");
+
+            return $this->redirectToRoute('admin_user_list');
+        }
+
+        return $this->render('user/adminEdit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+    }
+    /**
+     * @Route("/admin/users/{id}/editPassword", name="admin_edit_user_password", requirements={"id"="\d+"})
+     */
+    public function adminEditUserPassword(User $user, Request $request, UserPasswordEncoderInterface $encoder): Response
+    {
+        $form = $this->createForm(ProfilPasswordType::class, $user);
 
         $form->handleRequest($request);
 
@@ -108,10 +127,10 @@ class UserController extends AbstractController
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('admin_user_list');
         }
 
-        return $this->render('user/adminEdit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+        return $this->render('user/editPassword.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
     /**
      * @Route("/admin/users/{id}/delete", name="admin_delete_user", requirements={"id"="\d+"})

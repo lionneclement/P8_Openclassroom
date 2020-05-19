@@ -17,6 +17,7 @@ class UserTest extends WebTestCase
         yield ['/users/create'];
         yield ['/admin/users/list'];
         yield ['/admin/users/5/edit'];
+        yield ['/admin/users/5/editPassword'];
         yield ['/admin/tasks/anony'];
         yield ['/login'];
     }
