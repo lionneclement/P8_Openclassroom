@@ -13,14 +13,18 @@ class DeleteTest extends WebTestCase
         $this->client = static::createClient();
         $this->client->followRedirects();
     }
-    public function url()
+    public function urlUser()
     {
         yield ['/tasks/3/delete'];
     }
+    public function urlAdmin()
+    {
+        yield ['/tasks/5/delete'];
+    }
     /**
-     * @dataProvider url
+     * @dataProvider urlAdmin
      */
-    public function testError($url)
+    public function testSuccessAdmin($url)
     {
         $this->client->request(
             'GET', '/', [], [], [
@@ -28,14 +32,14 @@ class DeleteTest extends WebTestCase
             'PHP_AUTH_PW'   => 'password',
               ]
         );
-        $this->client->request('GET', $url);
+        $crawler = $this->client->request('GET', $url);
 
-        $this->assertSelectorTextContains('h1', 'Bienvenue sur Todo List, l\'application vous permettant de gérer l\'ensemble de vos tâches sans effort !');
+        $this->assertGreaterThan(0, $crawler->filter('div.alert-success')->count());
     }
     /**
-     * @dataProvider url
+     * @dataProvider urlUser
      */
-    public function testSuccess($url)
+    public function testSuccessUser($url)
     {
         $this->client->request(
             'GET', '/', [], [], [

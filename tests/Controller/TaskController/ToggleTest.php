@@ -17,34 +17,50 @@ class ToggleTest extends WebTestCase
     {
         yield ['/tasks/2/toggle'];
     }
-    /**
-     * @dataProvider url
-     */
-    public function testSuccess($url)
+    public function urlError()
     {
-        $this->client->request(
-            'GET', '/', [], [], [
-            'PHP_AUTH_USER' => 'user@gmail.com',
-            'PHP_AUTH_PW'   => 'password',
-              ]
-        );
-        $crawler = $this->client->request('GET', $url);
-
-        $this->assertGreaterThan(0, $crawler->filter('div.alert-success')->count());
+        yield ['/tasks/4/toggle'];
     }
     /**
      * @dataProvider url
      */
-    public function testError($url)
+    public function testSuccessUser($url)
     {
-        $this->client->request('GET', '/');
+        $crawler = $this->client->request(
+            'GET', $url, [], [], [
+            'PHP_AUTH_USER' => 'user@gmail.com',
+            'PHP_AUTH_PW'   => 'password',
+              ]
+        );
+
+        $this->assertGreaterThan(0, $crawler->filter('div.alert-success')->count());
+    }
+    /**
+     * @dataProvider urlError
+     */
+    public function testErrorUser($url)
+    {
         $this->client->request(
+            'GET', $url, [], [], [
+            'PHP_AUTH_USER' => 'user@gmail.com',
+            'PHP_AUTH_PW'   => 'password',
+              ]
+        );
+
+        $this->assertNotEquals(200, $this->client->getResponse()->getStatusCode());
+    }
+    /**
+     * @dataProvider url
+     */
+    public function testSuccessAdmin($url)
+    {
+        $crawler = $this->client->request(
             'GET', $url, [], [], [
             'PHP_AUTH_USER' => 'admin@gmail.com',
             'PHP_AUTH_PW'   => 'password',
               ]
         );
-        
-        $this->assertSelectorTextContains('h1', 'Bienvenue sur Todo List, l\'application vous permettant de gérer l\'ensemble de vos tâches sans effort !');
+
+        $this->assertGreaterThan(0, $crawler->filter('div.alert-success')->count());
     }
 }

@@ -8,7 +8,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @codeCoverageIgnore
@@ -100,6 +99,11 @@ class TestingFixtures extends Fixture implements FixtureGroupInterface
         $task = new Task();
         $task->setTitle('AnonyTask');
         $task->setContent('AnonyTask');
+        $manager->persist($task);
+
+        $task = new Task();
+        $task->setTitle('deleteTask');
+        $task->setContent('deleteTask');
         $manager->persist($task);
 
         $manager->flush();
