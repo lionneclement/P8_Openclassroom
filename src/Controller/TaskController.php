@@ -17,9 +17,11 @@ class TaskController extends AbstractController
      */
     public function list(UserInterface $user): Response
     {
+        $arrayFind = $this->isGranted('ROLE_ADMIN')?[]:['userId' => $user->getId()]; 
+        
         $tasks = $this->getDoctrine()
             ->getRepository('App:Task')
-            ->findBy(['userId' => $user->getId()]);
+            ->findBy($arrayFind);
         return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
     /**
@@ -27,9 +29,11 @@ class TaskController extends AbstractController
      */
     public function listIsDone(int $id, UserInterface $user): Response
     {
+        $arrayFind = $this->isGranted('ROLE_ADMIN')?[]:['userId' => $user->getId()]; 
+
         $tasks = $this->getDoctrine()
             ->getRepository('App:Task')
-            ->findBy(['userId' => $user->getId(), 'isDone'=> $id]);
+            ->findBy($arrayFind+=['isDone'=> $id]);
         return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 
