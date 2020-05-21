@@ -64,8 +64,8 @@ class TaskController extends AbstractController
      */
     public function editAction(Task $task, Request $request, UserInterface $user): Response
     {
-        if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
-            return $this->redirectToRoute('homepage');
+        if ($task->getUserId()!=$user) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
         }
         $form = $this->createForm(TaskType::class, $task);
 
@@ -92,8 +92,8 @@ class TaskController extends AbstractController
      */
     public function toggleTaskAction(Task $task, Request $request, UserInterface $user): Response
     {
-        if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
-            return $this->redirectToRoute('homepage');
+        if ($task->getUserId()!=$user) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
         }
         $task->setIsDone(!$task->getIsDone());
         $this->getDoctrine()->getManager()->flush();
@@ -111,8 +111,8 @@ class TaskController extends AbstractController
      */
     public function deleteTaskAction(Task $task, Request $request, UserInterface $user): Response
     {
-        if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
-            return $this->redirectToRoute('homepage');
+        if ($task->getUserId()!=$user) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
         }
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
