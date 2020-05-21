@@ -44,7 +44,7 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="userId")
+     * @ORM\OneToMany(targetEntity=Task::class, mappedBy="userId", cascade={"remove"})
      */
     private $tasks;
 
