@@ -15,7 +15,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks", name="task_list")
      */
-    public function listAction(UserInterface $user): Response
+    public function list(UserInterface $user): Response
     {
         $tasks = $this->getDoctrine()
             ->getRepository('App:Task')
@@ -25,7 +25,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/list", name="task_list_isDone", requirements={"id"="[01]"})
      */
-    public function listActionIsDone(int $id, UserInterface $user): Response
+    public function listIsDone(int $id, UserInterface $user): Response
     {
         $tasks = $this->getDoctrine()
             ->getRepository('App:Task')
@@ -36,7 +36,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/create", name="task_create")
      */
-    public function createAction(Request $request, UserInterface $user): Response
+    public function create(Request $request, UserInterface $user): Response
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -62,7 +62,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/edit", name="task_edit", requirements={"id"="\d+"})
      */
-    public function editAction(Task $task, Request $request, UserInterface $user): Response
+    public function edit(Task $task, Request $request, UserInterface $user): Response
     {
         if ($task->getUserId()!=$user) {
             $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -90,7 +90,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle", requirements={"id"="\d+"})
      */
-    public function toggleTaskAction(Task $task, Request $request, UserInterface $user): Response
+    public function toggleTask(Task $task, Request $request, UserInterface $user): Response
     {
         if ($task->getUserId()!=$user) {
             $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -109,7 +109,7 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/delete", name="task_delete", requirements={"id"="\d+"})
      */
-    public function deleteTaskAction(Task $task, Request $request, UserInterface $user): Response
+    public function deleteTask(Task $task, Request $request, UserInterface $user): Response
     {
         if ($task->getUserId()!=$user) {
             $this->denyAccessUnlessGranted('ROLE_ADMIN');
