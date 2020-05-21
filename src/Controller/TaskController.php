@@ -15,28 +15,32 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks", name="task_list")
      */
-    public function listAction(UserInterface $user): Response
+    public function list(UserInterface $user): Response
     {
+        $arrayFind = $this->isGranted('ROLE_ADMIN')?[]:['userId' => $user]; 
+        
         $tasks = $this->getDoctrine()
             ->getRepository('App:Task')
-            ->findBy(['userId' => $user->getId()]);
+            ->findBy($arrayFind);
         return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
     /**
      * @Route("/tasks/{id}/list", name="task_list_isDone", requirements={"id"="[01]"})
      */
-    public function listActionIsDone(int $id, UserInterface $user): Response
+    public function listIsDone(int $id, UserInterface $user): Response
     {
+        $arrayFind = $this->isGranted('ROLE_ADMIN')?[]:['userId' => $user]; 
+
         $tasks = $this->getDoctrine()
             ->getRepository('App:Task')
-            ->findBy(['userId' => $user->getId(), 'isDone'=> $id]);
+            ->findBy($arrayFind+=['isDone'=> $id]);
         return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 
     /**
      * @Route("/tasks/create", name="task_create")
      */
-    public function createAction(Request $request, UserInterface $user): Response
+    public function create(Request $request, UserInterface $user): Response
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -62,10 +66,10 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/edit", name="task_edit", requirements={"id"="\d+"})
      */
-    public function editAction(Task $task, Request $request, UserInterface $user): Response
+    public function edit(Task $task, Request $request, UserInterface $user): Response
     {
-        if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
-            return $this->redirectToRoute('homepage');
+        if ($task->getUserId()!=$user) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
         }
         $form = $this->createForm(TaskType::class, $task);
 
@@ -90,10 +94,10 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/toggle", name="task_toggle", requirements={"id"="\d+"})
      */
-    public function toggleTaskAction(Task $task, Request $request, UserInterface $user): Response
+    public function toggleTask(Task $task, Request $request, UserInterface $user): Response
     {
-        if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
-            return $this->redirectToRoute('homepage');
+        if ($task->getUserId()!=$user) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
         }
         $task->setIsDone(!$task->getIsDone());
         $this->getDoctrine()->getManager()->flush();
@@ -109,10 +113,10 @@ class TaskController extends AbstractController
     /**
      * @Route("/tasks/{id}/delete", name="task_delete", requirements={"id"="\d+"})
      */
-    public function deleteTaskAction(Task $task, Request $request, UserInterface $user): Response
+    public function deleteTask(Task $task, Request $request, UserInterface $user): Response
     {
-        if ($task->getUserId()!=$user && !($task->getUserId()==null && $this->isGranted('ROLE_ADMIN'))) {
-            return $this->redirectToRoute('homepage');
+        if ($task->getUserId()!=$user) {
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
         }
         $em = $this->getDoctrine()->getManager();
         $em->remove($task);
@@ -130,9 +134,13 @@ class TaskController extends AbstractController
      */
     public function listTaskAnony(): Response
     {
+        $user = $this->getDoctrine()
+            ->getRepository('App:User')
+            ->findBy(['email'=>'anonymous@gmail.com']);
+
         $tasks = $this->getDoctrine()
             ->getRepository('App:Task')
-            ->findBy(['userId'=> null]);
+            ->findBy(['userId'=> $user]);
         return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 }

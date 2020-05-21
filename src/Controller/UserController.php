@@ -19,7 +19,7 @@ class UserController extends AbstractController
     /**
      * @Route("/admin/users/list", name="admin_user_list")
      */
-    public function listAction(): Response
+    public function list(): Response
     {
         return $this->render('user/list.html.twig', ['users' => $this->getDoctrine()->getRepository('App:User')->findAll()]);
     }
@@ -27,7 +27,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/create", name="user_create")
      */
-    public function createAction(Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function create(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -53,7 +53,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/edit", name="user_edit")
      */
-    public function editAction(UserInterface $user, Request $request): Response
+    public function edit(UserInterface $user, Request $request): Response
     {
         $form = $this->createForm(ProfilType::class, $user);
 
@@ -72,7 +72,7 @@ class UserController extends AbstractController
     /**
      * @Route("/users/edit/password", name="user_edit_password")
      */
-    public function editPasswordAction(UserInterface $user, Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function editPassword(UserInterface $user, Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $form = $this->createForm(ProfilPasswordType::class, $user);
 
