@@ -16,11 +16,11 @@ class AdminTest extends WebTestCase
     {
         yield ['/users/create'];
         yield ['/login'];
-        yield ['/tasks/1/edit'];//false because task is connected to user
     }
     public function urlTrue()
     {
         yield ['/tasks'];
+        yield ['/tasks/1/edit'];
         yield ['/'];
         yield ['/users/edit'];
         yield ['/users/edit/password'];

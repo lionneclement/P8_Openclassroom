@@ -8,7 +8,6 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @codeCoverageIgnore
@@ -97,9 +96,24 @@ class TestingFixtures extends Fixture implements FixtureGroupInterface
         $user->setPassword($password);
         $manager->persist($user);
 
+        $user = new User();
+        $user->setUsername('anonymous');
+        $user->setEmail('anonymous@gmail.com');
+        $user->setRoles(['ROLE_USER']);
+        $password = $this->encoder->encodePassword($user, 'password');
+        $user->setPassword($password);
+        $manager->persist($user);
+
         $task = new Task();
         $task->setTitle('AnonyTask');
         $task->setContent('AnonyTask');
+        $task->setUserId($user);
+        $manager->persist($task);
+
+        $task = new Task();
+        $task->setTitle('deleteTask');
+        $task->setContent('deleteTask');
+        $task->setUserId($user);
         $manager->persist($task);
 
         $manager->flush();
