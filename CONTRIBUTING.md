@@ -25,6 +25,7 @@ Before edit or add files you need to read this documentation.
 ## Testing
 1) We use phpUnit so read the documentation [here](https://phpunit.de/)
 2) We have create fixture for testing, create data with `php bin/console doctrine:fixtures:load --group=testing`.
-3) Don't forget to create a code coverage with `php bin/phpunit --coverage-html html`.
+3) If you create a new route you need to test the access control in the accessControl folder and the rest of you test in Controller folder.
+4) Don't forget to create a code coverage with `php bin/phpunit --coverage-html html`.
 
 If you have any questions send me an mail to lionneclement@gmail.com.
